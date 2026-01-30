@@ -6,7 +6,7 @@
 
     <groupId>com.iflytek</groupId>
     <artifactId>liteflow-el-builder</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <skipTests>true</skipTests>
