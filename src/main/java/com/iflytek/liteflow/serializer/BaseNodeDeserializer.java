@@ -1,4 +1,4 @@
-package com.iflytek.liteflow.deserializer;
+package com.iflytek.liteflow.serializer;
 
 import cn.hutool.core.lang.Assert;
 import com.fasterxml.jackson.core.JsonParser;

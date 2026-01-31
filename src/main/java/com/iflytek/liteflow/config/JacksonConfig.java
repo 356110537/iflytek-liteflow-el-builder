@@ -1,7 +1,7 @@
 package com.iflytek.liteflow.config;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.iflytek.liteflow.deserializer.BaseNodeDeserializer;
+import com.iflytek.liteflow.serializer.BaseNodeDeserializer;
 import com.iflytek.liteflow.model.BaseNode;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
