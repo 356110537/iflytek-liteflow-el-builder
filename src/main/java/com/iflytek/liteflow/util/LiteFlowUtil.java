@@ -55,7 +55,10 @@ public class LiteFlowUtil {
     public String createEL(LiteFlowInfo liteFlow) {
         Set<Node> nodes = this.jsonToNode(liteFlow);
         Node node = this.handle(nodes);
-        if (node != null && node.getWrapper() != null) {
+        if (node != null && node.getWrapper() != null && node.getWrapper().toEL() != null) {
+            if (node.getWrapper().toEL().equals(ELBus.element(buildLiteFlowId(node)).toEL())) {
+                return ELBus.then(node.getWrapper()).toEL();
+            }
             return node.getWrapper().toEL();
         }
         return null;
@@ -69,10 +72,9 @@ public class LiteFlowUtil {
         Set<? extends BaseNode> nodeSet = liteFlow.getNodes();
         List<BaseEdge> edgeList = liteFlow.getEdges();
         Assert.notEmpty(nodeSet, "node cannot be empty");
-        Assert.notEmpty(edgeList, "edge cannot be empty");
         Set<Node> nodes = nodeSet.stream().map(this::covertNode).collect(Collectors.toSet());
         List<Edge> edges = edgeList.stream().map(this::covertEdge).collect(Collectors.toList());
-        if (ObjectUtils.isEmpty(nodes) || ObjectUtils.isEmpty(edges)) return null;
+        if (ObjectUtils.isEmpty(nodes)) return null;
         Map<String, Node> nodeMap = new HashMap<>();
         nodes.forEach(node -> nodeMap.put(node.getId(), node));
         // 建立Edge映射关系
@@ -137,7 +139,7 @@ public class LiteFlowUtil {
             case IF:
                 return new IfNode(node.getId(), node.getName(), node.hashCode());
             case SWITCH:
-                return new SwitchNode(node.getId(), node.getName());
+                return new SwitchNode(node.getId(), node.getName(), node.hashCode());
             case ITERATOR: {
                 IteratorNode iteratorNode = new IteratorNode(node.getId(), node.getName(), node.hashCode());
                 LoopNode loopNode = (LoopNode) node;
@@ -609,6 +611,7 @@ public class LiteFlowUtil {
                     }
                     BaseNode breakNode = node.getBreakNode();
                     if (breakNode != null) {
+                        breakNode.setType(NodeType.BREAK);
                         wrapper.breakOpt(buildLiteFlowId(breakNode));
                     }
                     node.setWrapper(wrapper);

@@ -7,6 +7,7 @@ public enum NodeType {
     SWITCH("条件选择节点"),
     ITERATOR("迭代循环组件"),
     WHILE("WHILE循环组件"),
+    BREAK("终止循环"),
     VIRTUAL("虚拟节点"),
     ;
 
