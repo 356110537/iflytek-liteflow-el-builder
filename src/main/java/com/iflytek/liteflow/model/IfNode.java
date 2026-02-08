@@ -1,13 +1,10 @@
 package com.iflytek.liteflow.model;
 
-import com.iflytek.liteflow.util.LiteFlowUtil;
-import com.yomahub.liteflow.builder.el.ELBus;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * 条件判断类型
+ * 条件判断节点
  */
 public class IfNode extends Node {
     private static final long serialVersionUID = 7472288101685007029L;

@@ -3,17 +3,17 @@ package com.iflytek.liteflow.model;
 /**
  * 循环节点
  */
-public class LoopNode extends BaseNode {
+public class LoopNode<N extends BaseNode, E extends BaseEdge> extends BaseNode {
     private static final long serialVersionUID = -965473405421976324L;
 
     /**
      * 循环迭代信息
      */
-    private LiteFlowInfo loop;
+    private Loop<N, E> loop;
     /**
      * 跳出循环的节点
      */
-    private BaseNode breakNode;
+    private N breakNode;
 
     public LoopNode() {
     }
@@ -22,19 +22,19 @@ public class LoopNode extends BaseNode {
         super(id, name, type);
     }
 
-    public LiteFlowInfo getLoop() {
+    public Loop<N, E> getLoop() {
         return loop;
     }
 
-    public void setLoop(LiteFlowInfo loop) {
+    public void setLoop(Loop<N, E> loop) {
         this.loop = loop;
     }
 
-    public BaseNode getBreakNode() {
+    public N getBreakNode() {
         return breakNode;
     }
 
-    public void setBreakNode(BaseNode breakNode) {
+    public void setBreakNode(N breakNode) {
         this.breakNode = breakNode;
     }
 }

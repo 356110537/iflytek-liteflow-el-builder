@@ -7,7 +7,7 @@ import java.util.*;
 public class LiteFlowDataUtil {
 
     // 生成节点和边信息
-    public static LiteFlowInfo generator() {
+    public static Loop<BaseNode, BaseEdge> generator() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 16; i++) {
@@ -137,14 +137,14 @@ public class LiteFlowDataUtil {
         edge18.setTarget("P");
         edges.add(edge18);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // 测试多WHEN IF 场景
-    public static LiteFlowInfo generator1() {
+    public static Loop<BaseNode, BaseEdge> generator1() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 7; i++) {
@@ -213,14 +213,14 @@ public class LiteFlowDataUtil {
         edge8.setTarget("C");
         edges.add(edge8);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // 测试 没有 IF 场景
-    public static LiteFlowInfo generator2() {
+    public static Loop<BaseNode, BaseEdge> generator2() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 3; i++) {
@@ -247,14 +247,14 @@ public class LiteFlowDataUtil {
         edge2.setTarget("C");
         edges.add(edge2);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // 多IF场景
-    public static LiteFlowInfo generator3() {
+    public static Loop<BaseNode, BaseEdge> generator3() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 11; i++) {
@@ -354,14 +354,14 @@ public class LiteFlowDataUtil {
         edge20.setTarget("G");
         edges.add(edge20);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // NOT场景
-    public static LiteFlowInfo generator4() {
+    public static Loop<BaseNode, BaseEdge> generator4() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 11; i++) {
@@ -460,13 +460,13 @@ public class LiteFlowDataUtil {
         edge21.setTarget("G");
         edges.add(edge21);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
-    public static LiteFlowInfo generator5() {
+    public static Loop<BaseNode, BaseEdge> generator5() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 8; i++) {
@@ -536,14 +536,14 @@ public class LiteFlowDataUtil {
         edge8.setTarget("H");
         edges.add(edge8);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // 分组
-    public static LiteFlowInfo generator6() {
+    public static Loop<BaseNode, BaseEdge> generator6() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 15; i++) {
@@ -658,14 +658,14 @@ public class LiteFlowDataUtil {
         edge16.setTarget("O");
         edges.add(edge16);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // IF只有ELSE场景
-    public static LiteFlowInfo generator7() {
+    public static Loop<BaseNode, BaseEdge> generator7() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 4; i++) {
@@ -703,14 +703,14 @@ public class LiteFlowDataUtil {
         edge3.setType(EdgeType.FALSE);
         edges.add(edge3);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // SWITCH场景
-    public static LiteFlowInfo generator8() {
+    public static Loop<BaseNode, BaseEdge> generator8() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
         for (int i = 0; i < 13; i++) {
@@ -833,17 +833,17 @@ public class LiteFlowDataUtil {
         edge16.setTarget("M");
         edges.add(edge16);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
     // Iterator循环场景
-    public static LiteFlowInfo generator9() {
+    public static Loop<BaseNode, BaseEdge> generator9() {
         // 初始化节点信息
         Map<String, BaseNode> map = new HashMap<>();
-        Map<String, BaseNode> hMap = new HashMap<>();
+        Map<String, Node> hMap = new HashMap<>();
         for (int i = 0; i < 14; i++) {
             char letter = (char) ('A' + i);
             String nodeId = String.valueOf(letter);
@@ -855,8 +855,11 @@ public class LiteFlowDataUtil {
                 node = new IfNode(nodeId, nodeId);
             } else if (letter == 'H') {
                 node = new IteratorNode(nodeId, nodeId);
+            } else if (letter == 'N') {
+                node = new Node(nodeId, nodeId, NodeType.BREAK);
             } else if (letter == 'I' || letter == 'J' || letter == 'K' || letter == 'L') {
-                hMap.put(nodeId, node);
+                Node item = new Node(nodeId, nodeId, NodeType.COMMON);
+                hMap.put(nodeId, item);
                 continue;
             }
             map.put(nodeId, node);
@@ -908,10 +911,10 @@ public class LiteFlowDataUtil {
         edge7.setTarget("H");
         edges.add(edge7);
 
-        LiteFlowInfo hInfo = getLiteFlowInfo(hMap);
+        Loop<Node, Edge> loop = getLiteFlowInfo(hMap);
         IteratorNode node = (IteratorNode) map.get("H");
-        node.setLoop(hInfo);
-        node.setBreakNode(map.get("N"));
+        node.setLoop(loop);
+        node.setBreakNode((Node) map.get("N"));
         map.remove("N");
 
         // H -> M
@@ -920,46 +923,46 @@ public class LiteFlowDataUtil {
         edge13.setTarget("M");
         edges.add(edge13);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(new HashSet<>(map.values()));
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
 
-    private static LiteFlowInfo getLiteFlowInfo(Map<String, BaseNode> hMap) {
-        List<BaseEdge> hBaseEdges = new ArrayList<>();
+    private static Loop<Node, Edge> getLiteFlowInfo(Map<String, Node> hMap) {
+        List<Edge> hBaseEdges = new ArrayList<>();
         // I -> J
-        BaseEdge edge8 = new BaseEdge();
+        Edge edge8 = new Edge();
         edge8.setSource("I");
         edge8.setTarget("J");
         hBaseEdges.add(edge8);
 
         // I -> K
-        BaseEdge edge9 = new BaseEdge();
+        Edge edge9 = new Edge();
         edge9.setSource("I");
         edge9.setTarget("K");
         hBaseEdges.add(edge9);
 
         // J -> L
-        BaseEdge edge10 = new BaseEdge();
+        Edge edge10 = new Edge();
         edge10.setSource("J");
         edge10.setTarget("L");
         hBaseEdges.add(edge10);
 
         // K -> L
-        BaseEdge edge11 = new BaseEdge();
+        Edge edge11 = new Edge();
         edge11.setSource("K");
         edge11.setTarget("L");
         hBaseEdges.add(edge11);
 
-        LiteFlowInfo hInfo = new LiteFlowInfo();
-        hInfo.setNodes(new HashSet<>(hMap.values()));
-        hInfo.setEdges(hBaseEdges);
-        return hInfo;
+        Loop<Node, Edge> loop = new Loop<>();
+        loop.setNodes(new HashSet<>(hMap.values()));
+        loop.setEdges(hBaseEdges);
+        return loop;
     }
 
     // 2个开始节点
-    public static LiteFlowInfo generator10() {
+    public static Loop<BaseNode, BaseEdge> generator10() {
         Set<BaseNode> nodes = new LinkedHashSet<>();
         // 初始化节点信息
         for (int i = 0; i < 11; i++) {
@@ -1046,7 +1049,7 @@ public class LiteFlowDataUtil {
         edge10.setTarget("K");
         edges.add(edge10);
 
-        LiteFlowInfo liteFlowInfo = new LiteFlowInfo();
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
         liteFlowInfo.setNodes(nodes);
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;

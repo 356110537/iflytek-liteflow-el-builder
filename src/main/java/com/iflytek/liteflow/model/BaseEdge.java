@@ -29,6 +29,15 @@ public class BaseEdge implements Serializable {
      */
     private String mapping;
 
+    public BaseEdge() {
+    }
+
+    public BaseEdge(String id, String source, String target) {
+        this.id = id;
+        this.source = source;
+        this.target = target;
+    }
+
     public String getId() {
         return id;
     }

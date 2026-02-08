@@ -24,53 +24,56 @@ public class LiteFlowUtil {
     /**
      * 获取所有节点集合
      */
-    public Set<Node> jsonToNodes(LiteFlowInfo liteFlow) {
-        Assert.notNull(liteFlow, "LiteFlowInfo cannot be null");
-        Assert.notEmpty(liteFlow.getNodes(), "nodes cannot be empty");
-        Set<? extends BaseNode> nodeSet = liteFlow.getNodes();
-        Set<Node> nodes = new LinkedHashSet<>();
-        nodeSet.forEach(item -> {
-            Node node = this.covertNode(item);
-            nodes.add(node);
-            LiteFlowInfo loop = node.getLoop();
-            if (loop != null) {
-                Set<Node> temp = this.jsonToNodes(loop);
-                if (ObjectUtils.isNotEmpty(temp)) {
-                    nodes.addAll(temp);
+    public <T extends BaseNode> Set<T> jsonToNodes(Collection<T> nodes) {
+        Assert.notEmpty(nodes, "nodes cannot be empty");
+        Set<T> nodeSet = new LinkedHashSet<>();
+        for (T item : nodes) {
+            item.setNodeId(buildLiteFlowId(item));
+            nodeSet.add(item);
+            if (item instanceof LoopNode) {
+                LoopNode<T, ?> loopNode = (LoopNode<T, ?>) item;
+                loopNode.setNodeId(item.getNodeId());
+                Loop<T, ?> loop = loopNode.getLoop();
+                Class<? extends BaseNode> aClass = item.getClass();
+                if (loop != null) {
+                    Set<T> temp = this.jsonToNodes(loop.getNodes());
+                    if (ObjectUtils.isNotEmpty(temp)) {
+                        nodeSet.addAll(temp);
+                    }
+                }
+                T breakNode = loopNode.getBreakNode();
+                if (breakNode != null) {
+                    breakNode.setNodeId(buildLiteFlowId(breakNode));
+                    nodeSet.add(breakNode);
                 }
             }
-            BaseNode breakNode = node.getBreakNode();
-            if (breakNode != null) {
-                nodes.add(this.covertNode(breakNode));
-            }
-        });
-        return nodes;
+        }
+        return nodeSet;
     }
 
     /**
      * 生成EL表达式
      *
-     * @param liteFlow 前端编排信息
+     * @param nodes 节点信息
+     * @param edges 边信息
      */
-    public String createEL(LiteFlowInfo liteFlow) {
-        Set<Node> nodes = this.jsonToNode(liteFlow);
-        Node node = this.handle(nodes);
+    public String createEL(Collection<? extends BaseNode> nodes, Collection<? extends BaseEdge> edges) {
+        Assert.notEmpty(nodes, "node cannot be empty");
+        Set<Node> nodeSet = this.jsonToNode(nodes, edges);
+        Node node = this.handle(nodeSet);
         if (node != null && node.getWrapper() != null && node.getWrapper().toEL() != null) {
             if (node.getWrapper().toEL().equals(ELBus.element(buildLiteFlowId(node)).toEL())) {
                 return ELBus.then(node.getWrapper()).toEL();
             }
             return node.getWrapper().toEL();
         }
-        return null;
+        throw new RuntimeException("EL expression generation failed");
     }
 
     /**
      * 前端数据转换成语法树
      */
-    public Set<Node> jsonToNode(LiteFlowInfo liteFlow) {
-        if (liteFlow == null) return null;
-        Set<? extends BaseNode> nodeSet = liteFlow.getNodes();
-        List<BaseEdge> edgeList = liteFlow.getEdges();
+    public Set<Node> jsonToNode(Collection<? extends BaseNode> nodeSet, Collection<? extends BaseEdge> edgeList) {
         Assert.notEmpty(nodeSet, "node cannot be empty");
         Set<Node> nodes = nodeSet.stream().map(this::covertNode).collect(Collectors.toSet());
         List<Edge> edges = edgeList.stream().map(this::covertEdge).collect(Collectors.toList());
@@ -121,10 +124,7 @@ public class LiteFlowUtil {
      */
     public static <T extends BaseNode> String buildLiteFlowId(T node) {
         String nodeId = node.getType() == NodeType.VIRTUAL ? VIRTUAL_NODE_PREFIX + node.hashCode() : NODE_PREFIX + node.hashCode();
-        if (node instanceof Node) {
-            return ((Node) node).getNodeId() != null ? ((Node) node).getNodeId() : nodeId;
-        }
-        return nodeId;
+        return node.getNodeId() != null ? node.getNodeId() : nodeId;
     }
 
     /**
@@ -142,12 +142,13 @@ public class LiteFlowUtil {
                 return new SwitchNode(node.getId(), node.getName(), node.hashCode());
             case ITERATOR: {
                 IteratorNode iteratorNode = new IteratorNode(node.getId(), node.getName(), node.hashCode());
-                LoopNode loopNode = (LoopNode) node;
-                LiteFlowInfo loop = loopNode.getLoop();
+                LoopNode<? extends BaseNode, ? extends BaseEdge> loopNode = (LoopNode<BaseNode, BaseEdge>) node;
+                Loop<? extends BaseNode, ? extends BaseEdge> loop = loopNode.getLoop();
                 if (loop != null) {
-                    loop.setNodes(loop.getNodes().stream().map(this::covertNode).collect(Collectors.toSet()));
-                    loop.setEdges(loop.getEdges().stream().map(this::covertEdge).collect(Collectors.toList()));
-                    iteratorNode.setLoop(loop);
+                    Loop<Node, Edge> item = new Loop<>();
+                    item.setNodes(loop.getNodes().stream().map(this::covertNode).collect(Collectors.toSet()));
+                    item.setEdges(loop.getEdges().stream().map(this::covertEdge).collect(Collectors.toList()));
+                    iteratorNode.setLoop(item);
                 }
                 BaseNode breakNode = loopNode.getBreakNode();
                 if (breakNode != null) {
@@ -157,12 +158,13 @@ public class LiteFlowUtil {
             }
             case WHILE: {
                 WhileNode whileNode = new WhileNode(node.getId(), node.getName(), node.hashCode());
-                LoopNode loopNode = (LoopNode) node;
-                LiteFlowInfo loop = loopNode.getLoop();
+                LoopNode<BaseNode, BaseEdge> loopNode = (LoopNode<BaseNode, BaseEdge>) node;
+                Loop<BaseNode, BaseEdge> loop = loopNode.getLoop();
                 if (loop != null) {
-                    loop.setNodes(loop.getNodes().stream().map(this::covertNode).collect(Collectors.toSet()));
-                    loop.setEdges(loop.getEdges().stream().map(this::covertEdge).collect(Collectors.toList()));
-                    whileNode.setLoop(loop);
+                    Loop<Node, Edge> item = new Loop<>();
+                    item.setNodes(loop.getNodes().stream().map(this::covertNode).collect(Collectors.toSet()));
+                    item.setEdges(loop.getEdges().stream().map(this::covertEdge).collect(Collectors.toList()));
+                    whileNode.setLoop(item);
                 }
                 BaseNode breakNode = loopNode.getBreakNode();
                 if (breakNode != null) {
@@ -597,10 +599,10 @@ public class LiteFlowUtil {
         return nodes.stream().anyMatch(node -> {
             NodeType type = node.getType();
             if (type == NodeType.ITERATOR || type == NodeType.WHILE) {
-                LiteFlowInfo childInfo = node.getLoop();
-                if (childInfo != null) {
+                Loop<Node, Edge> loop = node.getLoop();
+                if (loop != null) {
                     // 解析循环流程EL表达式
-                    Set<Node> nodeSet = this.jsonToNode(childInfo);
+                    Set<Node> nodeSet = this.jsonToNode(loop.getNodes(), loop.getEdges());
                     Node item = this.handle(nodeSet);
                     Assert.notNull(item.getWrapper(), "The ELWrapper of the loop node cannot be null");
                     LoopELWrapper wrapper;

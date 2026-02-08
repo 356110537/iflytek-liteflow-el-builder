@@ -1,5 +1,8 @@
 package com.iflytek.liteflow.model;
 
+/**
+ * WHILE循环节点
+ */
 public class WhileNode extends Node {
     private static final long serialVersionUID = -7147277729500879616L;
 

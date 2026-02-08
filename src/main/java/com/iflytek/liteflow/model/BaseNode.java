@@ -20,6 +20,10 @@ public class BaseNode implements Serializable {
      * 节点类型
      */
     private NodeType type;
+    /**
+     * liteflow节点ID,根据节点ID构建liteflow组件以及生成EL表达式
+     */
+    private String nodeId;
 
     public BaseNode() {
         this.type = NodeType.COMMON;
@@ -57,5 +61,13 @@ public class BaseNode implements Serializable {
 
     public void setType(NodeType type) {
         this.type = type;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
     }
 }

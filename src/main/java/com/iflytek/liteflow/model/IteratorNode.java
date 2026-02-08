@@ -1,5 +1,8 @@
 package com.iflytek.liteflow.model;
 
+/**
+ * 迭代循环节点
+ */
 public class IteratorNode extends Node {
     private static final long serialVersionUID = -4083825003253280496L;
 

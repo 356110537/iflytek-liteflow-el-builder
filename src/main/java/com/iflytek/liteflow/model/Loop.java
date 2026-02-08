@@ -2,38 +2,37 @@ package com.iflytek.liteflow.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 前端参数信息
  */
-public class LiteFlowInfo implements Serializable {
+public class Loop<N extends BaseNode, E extends BaseEdge> implements Serializable {
     private static final long serialVersionUID = -7970127237360223253L;
 
     /**
      * 节点集合
      */
-    private Set<? extends BaseNode> nodes = new LinkedHashSet<>();
+    private Collection<N> nodes = new LinkedHashSet<>();
     /**
      * 边集合
      */
-    private List<BaseEdge> edges = new ArrayList<>();
+    private Collection<E> edges = new ArrayList<>();
 
-    public Set<? extends BaseNode> getNodes() {
+    public Collection<N> getNodes() {
         return nodes;
     }
 
-    public void setNodes(Set<? extends BaseNode> nodes) {
+    public void setNodes(Collection<N> nodes) {
         this.nodes = nodes;
     }
 
-    public List<BaseEdge> getEdges() {
+    public Collection<E> getEdges() {
         return edges;
     }
 
-    public void setEdges(List<BaseEdge> edges) {
+    public void setEdges(Collection<E> edges) {
         this.edges = edges;
     }
 }

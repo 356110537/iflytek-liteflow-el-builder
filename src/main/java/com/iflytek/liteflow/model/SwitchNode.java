@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 条件选择节点
+ */
 public class SwitchNode extends Node {
     private static final long serialVersionUID = -2360765133623261266L;
 

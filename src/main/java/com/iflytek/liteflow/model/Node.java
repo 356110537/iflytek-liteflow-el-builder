@@ -1,5 +1,6 @@
 package com.iflytek.liteflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iflytek.liteflow.util.LiteFlowUtil;
 import com.yomahub.liteflow.builder.el.ELBus;
 import com.yomahub.liteflow.builder.el.ELWrapper;
@@ -14,13 +15,9 @@ import java.util.Set;
 /**
  * 节点信息
  */
-public class Node extends LoopNode implements Serializable {
+public class Node extends LoopNode<Node, Edge> implements Serializable {
     private static final long serialVersionUID = 421958199518091553L;
 
-    /**
-     * 节点ID
-     */
-    private String nodeId;
     /**
      * 父节点
      */
@@ -32,6 +29,7 @@ public class Node extends LoopNode implements Serializable {
     /**
      * 节点EL表达式对象
      */
+    @JsonIgnore
     private ELWrapper wrapper;
     /**
      * 节点的Edge集合
@@ -44,20 +42,13 @@ public class Node extends LoopNode implements Serializable {
     public Node(String id, String name, NodeType type) {
         super(id, name, type);
         this.setNodeId(LiteFlowUtil.buildLiteFlowId(type, this.hashCode()));
+        this.setWrapper(ELBus.element(LiteFlowUtil.buildLiteFlowId(type, this.hashCode())));
     }
 
     public Node(String id, String name, NodeType type, int hashcode) {
         super(id, name, type);
         this.setNodeId(LiteFlowUtil.buildLiteFlowId(type, hashcode));
         this.setWrapper(ELBus.element(LiteFlowUtil.buildLiteFlowId(type, hashcode)));
-    }
-
-    public String getNodeId() {
-        return nodeId;
-    }
-
-    public void setNodeId(String nodeId) {
-        this.nodeId = nodeId;
     }
 
     public Set<Node> getParents() {
