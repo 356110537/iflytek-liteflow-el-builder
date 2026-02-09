@@ -1054,4 +1054,23 @@ public class LiteFlowDataUtil {
         liteFlowInfo.setEdges(edges);
         return liteFlowInfo;
     }
+
+    // 没有边信息
+    public static Loop<BaseNode, BaseEdge> generator11() {
+        Set<BaseNode> nodes = new LinkedHashSet<>();
+        // 初始化节点信息
+        for (int i = 0; i < 3; i++) {
+            char letter = (char) ('A' + i);
+            String nodeId = String.valueOf(letter);
+            BaseNode node = new BaseNode();
+            node.setType(NodeType.COMMON);
+            node.setId(nodeId);
+            node.setName(nodeId);
+            nodes.add(node);
+        }
+
+        Loop<BaseNode, BaseEdge> liteFlowInfo = new Loop<>();
+        liteFlowInfo.setNodes(nodes);
+        return liteFlowInfo;
+    }
 }

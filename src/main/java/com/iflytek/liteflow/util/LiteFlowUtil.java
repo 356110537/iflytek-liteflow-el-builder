@@ -76,22 +76,24 @@ public class LiteFlowUtil {
     public Set<Node> jsonToNode(Collection<? extends BaseNode> nodeSet, Collection<? extends BaseEdge> edgeList) {
         Assert.notEmpty(nodeSet, "node cannot be empty");
         Set<Node> nodes = nodeSet.stream().map(this::covertNode).collect(Collectors.toSet());
-        List<Edge> edges = edgeList.stream().map(this::covertEdge).collect(Collectors.toList());
         if (ObjectUtils.isEmpty(nodes)) return null;
-        Map<String, Node> nodeMap = new HashMap<>();
-        nodes.forEach(node -> nodeMap.put(node.getId(), node));
-        // 建立Edge映射关系
-        edges.forEach(edge -> {
-            Node source = nodeMap.get(edge.getSource());
-            Node target = nodeMap.get(edge.getTarget());
-            edge.setSourceNode(source);
-            edge.setTargetNode(target);
-            if (source != null && target != null) {
-                target.addParent(source);
-                source.addChildren(target);
-                source.getEdges().add(edge);
-            }
-        });
+        if (ObjectUtils.isNotEmpty(edgeList)){
+            List<Edge> edges = edgeList.stream().map(this::covertEdge).collect(Collectors.toList());
+            Map<String, Node> nodeMap = new HashMap<>();
+            nodes.forEach(node -> nodeMap.put(node.getId(), node));
+            // 建立Edge映射关系
+            edges.forEach(edge -> {
+                Node source = nodeMap.get(edge.getSource());
+                Node target = nodeMap.get(edge.getTarget());
+                edge.setSourceNode(source);
+                edge.setTargetNode(target);
+                if (source != null && target != null) {
+                    target.addParent(source);
+                    source.addChildren(target);
+                    source.getEdges().add(edge);
+                }
+            });
+        }
         // IF类型节点处理
         nodes.stream().filter(node -> node.getType() == NodeType.IF).forEach(node -> {
             IfNode ifNode = (IfNode) node;

@@ -19,7 +19,7 @@ public class LiteFlowApplicationTest {
     @Test
     public void test() throws Exception {
         LiteFlowUtil util = new LiteFlowUtil();
-        Loop<BaseNode, BaseEdge> generator = LiteFlowDataUtil.generator9();
+        Loop<BaseNode, BaseEdge> generator = LiteFlowDataUtil.generator11();
         logger.info("liteflow: {}", mapper.writeValueAsString(generator));
         Set<? extends BaseNode> nodes = util.jsonToNodes(generator.getNodes());
         for (BaseNode item : nodes) {
