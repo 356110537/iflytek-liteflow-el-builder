@@ -77,7 +77,7 @@ public class LiteFlowUtil {
         Assert.notEmpty(nodeSet, "node cannot be empty");
         Set<Node> nodes = nodeSet.stream().map(this::covertNode).collect(Collectors.toSet());
         if (ObjectUtils.isEmpty(nodes)) return null;
-        if (ObjectUtils.isNotEmpty(edgeList)){
+        if (ObjectUtils.isNotEmpty(edgeList)) {
             List<Edge> edges = edgeList.stream().map(this::covertEdge).collect(Collectors.toList());
             Map<String, Node> nodeMap = new HashMap<>();
             nodes.forEach(node -> nodeMap.put(node.getId(), node));
@@ -423,8 +423,8 @@ public class LiteFlowUtil {
                     if (!this.deepThen(item, nodes)) {
                         ELWrapper wrapper = this.createWrapper(nodes, SceneType.THEN);
                         this.updateChain(wrapper, nodes, SceneType.THEN);
-                        return true;
                     }
+                    return true;
                 }
             }
         }
