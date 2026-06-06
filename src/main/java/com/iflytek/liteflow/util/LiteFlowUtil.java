@@ -1,11 +1,11 @@
 package com.iflytek.liteflow.util;
 
+import cn.hutool.core.lang.Assert;
 import com.iflytek.liteflow.model.*;
 import com.yomahub.liteflow.builder.el.ELBus;
 import com.yomahub.liteflow.builder.el.ELWrapper;
 import com.yomahub.liteflow.builder.el.LoopELWrapper;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;

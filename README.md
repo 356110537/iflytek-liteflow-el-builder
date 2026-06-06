@@ -1,6 +1,6 @@
 # iflytek-liteflow-plugin
 
-`iflytek-liteflow-plugin` 是一个面向 LiteFlow 的流程编排转换插件，用于把前端传入的节点/连线结构转换为 LiteFlow EL 表达式，并提供 `BaseNode` 的 Jackson 反序列化能力，方便在 Spring Boot 项目中直接接收和处理编排数据。
+`iflytek-liteflow-plugin` 是一个面向 LiteFlow 的流程编排转换插件，用于把前端传入的节点/连线结构转换为 LiteFlow EL 表达式，方便在后端项目中直接接收和处理可视化编排数据。
 
 ## 项目能力
 
@@ -13,27 +13,19 @@
     - `SWITCH`
     - `ITERATOR`
     - `WHILE`
-- 通过 Spring Boot 自动配置注册 `BaseNodeDeserializer`
 
 ## 技术栈与环境
 
 - Java 8
 - Maven
-- Spring Boot 2.7.18
 - LiteFlow 2.13.2
 
 ## 项目结构
 
 ```text
 src/main/java/com/iflytek/liteflow
-├─ config          Spring Boot 自动配置
-├─ deserializer    BaseNode 反序列化器
 ├─ model           节点、边和流程模型
 └─ util            LiteFlow EL 生成工具
-
-src/main/resources
-├─ META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
-└─ spring.factories
 ```
 
 ## 核心模型
@@ -52,20 +44,23 @@ src/main/resources
 - `id`: 节点唯一标识
 - `name`: 节点名称
 - `type`: 节点类型
+- `nodeId`: LiteFlow 节点 ID，由工具类根据节点类型自动构建，用于生成 LiteFlow 组件及 EL 表达式
 
 支持的节点类型：
 
 - `COMMON`: 普通节点
-- `IF`: 条件节点
-- `SWITCH`: 路由节点
+- `IF`: 条件判断节点
+- `SWITCH`: 条件选择节点
 - `ITERATOR`: 迭代循环节点
 - `WHILE`: while 循环节点
+- `BREAK`: 终止循环节点
 - `VIRTUAL`: 虚拟节点
 
 ### `BaseEdge`
 
 基础连线字段：
 
+- `id`: 连线唯一标识
 - `source`: 起始节点 ID
 - `target`: 目标节点 ID
 - `type`: 连线类型，`IF` 场景下可使用 `TRUE` / `FALSE`
@@ -87,7 +82,7 @@ mvn clean install
 <dependency>
     <groupId>io.github.356110537</groupId>
     <artifactId>liteflow-el-builder</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 

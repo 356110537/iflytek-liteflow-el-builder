@@ -51,6 +51,17 @@ public class Node extends LoopNode<Node, Edge> implements Serializable {
         this.setWrapper(ELBus.element(LiteFlowUtil.buildLiteFlowId(type, hashcode)));
     }
 
+    @Override
+    public void setType(NodeType type) {
+        super.setType(type);
+        if (this.getNodeId() == null) {
+            this.setNodeId(LiteFlowUtil.buildLiteFlowId(this.getType(), this.hashCode()));
+        }
+        if (this.getWrapper() == null) {
+            this.setWrapper(ELBus.element(LiteFlowUtil.buildLiteFlowId(this.getType(), this.hashCode())));
+        }
+    }
+
     public Set<Node> getParents() {
         return parents;
     }
@@ -87,7 +98,6 @@ public class Node extends LoopNode<Node, Edge> implements Serializable {
     public void setEdges(List<Edge> edges) {
         this.edges = edges;
     }
-
 
     public static Node builder() {
         return new Node();
